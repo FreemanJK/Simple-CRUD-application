@@ -2,17 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vse lyudi</title>
+    <title>Index</title>
 </head>
 <body>
 
-<div th:each="person: ${people}">
-  <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName()}">user</a>
+<div th:each="person : ${people}">
+    <a th:href="@{/people/{id}(id=${person.getId()})}"
+       th:text="${person.getName() + ', ' + person.getAge()}">user</a>
 </div>
 
 <br/>
 <hr/>
 
 <a href="/people/new">Create new person</a>
+
 </body>
 </html>
