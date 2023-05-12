@@ -1,6 +1,8 @@
 package com.olzhasalishev.spring.config;
 
 import org.springframework.context.annotation.*;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
@@ -16,6 +18,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.sql.DataSource;
 import javax.xml.validation.Validator;
 
 @Configuration
@@ -46,6 +49,27 @@ public class SpringConfig implements WebMvcConfigurer {
         templateEngine.setEnableSpringELCompiler(true);
         return templateEngine;
     }
+
+    public DataSource dataSource(){
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+
+        dataSource.setDriverClassName("org.postgresql.Driver");
+
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/first_db");
+
+        dataSource.setUsername("postgres");
+
+        dataSource.setPassword("admin");
+
+        return dataSource;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(){
+        return new JdbcTemplate(dataSource());
+    }
+
+
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
